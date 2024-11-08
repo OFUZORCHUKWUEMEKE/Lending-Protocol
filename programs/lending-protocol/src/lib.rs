@@ -2,6 +2,7 @@ use anchor_lang::prelude::*;
 use instructions::*;
 mod state;
 mod error;
+mod constants;
 declare_id!("6eZg8GbWTQg8gLCnHCFuyPgmfU2LisqBi4rM5UEqZGai");
 
 #[program]
@@ -18,6 +19,10 @@ pub mod lending_protocol {
 
     pub fn deposit(ctx:Context<Deposit>,amount:u64)->Result<()>{
         process_deposit(ctx,amount)
+    }
+
+    pub fn withdraw(ctx:Context<Withdraw>,amount:u64)->Result<()>{
+        process_withdraw(ctx,amount)
     }
 }
 

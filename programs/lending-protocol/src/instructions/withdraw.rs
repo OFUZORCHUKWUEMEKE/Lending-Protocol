@@ -38,11 +38,23 @@ pub struct Withdraw<'info>{
 
 pub fn process_withdraw(ctx:Context<Withdraw>,amount:u64)->Result<()>{
     let user = &mut ctx.accounts.user_account;
+    let bank = &mut ctx.accounts.bank;
     let deposited_value:u64;
     if ctx.accounts.mint.to_account_info().key = user.usdc_address{
         deposited_value = user.deposited_usdc;
     }else{
         deposited_value= user.deposited_sol;
+    }
+
+    let time_diff = user.last_updated - clock::get()?.unix_timestamp;
+    bank.total_deposits = (bank.total_deposits as i64 E.powf(bank.interest_rate as f32 * time_diff as f32)) as u64;
+
+    let value_per_share = bank.total_deposits as f64 / bank.total_deposits_shares as f64;
+
+    let user_value:f64 = deposited_value as u64 / value_per_share;
+
+    if user_value < amount as f64{
+        return Err(ErrorCode::InsufficientFunds.into());
     }
 
     if amount > deposited_value{
