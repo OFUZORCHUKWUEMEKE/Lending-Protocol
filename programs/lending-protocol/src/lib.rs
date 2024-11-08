@@ -24,6 +24,14 @@ pub mod lending_protocol {
     pub fn withdraw(ctx:Context<Withdraw>,amount:u64)->Result<()>{
         process_withdraw(ctx,amount)
     }
+
+    pub fn borrow(ctx:Context<Borrow>,amount:u64)->Result<()>{
+        process_borrow(ctx,amount)
+    }
+
+    pub fn repay(ctx:Context<Repay>,amount:u64)->Result<()>{
+        
+    }
 }
 
 #[derive(Accounts)]
