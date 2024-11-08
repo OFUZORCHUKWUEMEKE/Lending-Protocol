@@ -30,7 +30,11 @@ pub mod lending_protocol {
     }
 
     pub fn repay(ctx:Context<Repay>,amount:u64)->Result<()>{
-        
+        process_repay(ctx,amount)
+    }
+
+    pub fn liquidate(ctx:Context<Liquidate>)->Result<()>{
+        process_liquidate(ctx)
     }
 }
 
